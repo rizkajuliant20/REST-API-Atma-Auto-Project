@@ -14,8 +14,8 @@ class PemesananSparepart extends Migration
     public function up()
     {
         Schema::create('pemesanan_sparepart', function (Blueprint $table) {
-            $table->string('ID_PEMESANAN',20)->primary();
-            $table->string('ID_SUPPLIER')->nullable();
+            $table->increments('ID_PEMESANAN');
+            $table->integer('ID_SUPPLIER')->unsigned();
             $table->foreign('ID_SUPPLIER')->references('ID_SUPPLIER')->on('supplier')->onUpdate('cascade');
            $table->date('TGL_PEMESANAN');
            $table->double('GRANDTOTAL_PEMESANAN');

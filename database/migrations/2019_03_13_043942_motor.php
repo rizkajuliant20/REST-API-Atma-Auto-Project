@@ -14,7 +14,7 @@ class Motor extends Migration
     public function up()
     {
         Schema::create('motor', function (Blueprint $table) {
-            $table->string('ID_MOTOR',20)->primary();
+            $table->increments('ID_MOTOR');
             $table->string('MERK_MOTOR',20);
             $table->string('TIPE_MOTOR',20);
            

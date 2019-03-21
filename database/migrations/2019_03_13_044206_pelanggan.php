@@ -14,7 +14,7 @@ class Pelanggan extends Migration
     public function up()
     {
         Schema::create('pelanggan', function (Blueprint $table) {
-            $table->string('ID_PELANGGAN',20)->primary();
+            $table->increments('ID_PELANGGAN');
             $table->string('NAMA_PELANGGAN',20);
             $table->string('TELEPON_PELANGGAN',20);
             $table->string('ALAMAT_PELANGGAN',20);

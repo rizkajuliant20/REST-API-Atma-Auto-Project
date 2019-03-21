@@ -14,10 +14,10 @@ class DetailPemesanan extends Migration
     public function up()
     {
         Schema::create('detail_pemesanan', function (Blueprint $table) {
-            $table->string('ID_DETAIL_PEMESANAN',20)->primary();
-            $table->string('ID_SPAREPARTS')->nullable();
+            $table->increments('ID_DETAIL_PEMESANAN');
+            $table->string('ID_SPAREPARTS');
             $table->foreign('ID_SPAREPARTS')->references('ID_SPAREPARTS')->on('sparepart')->onUpdate('cascade');
-            $table->string('ID_PEMESANAN')->nullable();
+            $table->integer('ID_PEMESANAN')->unsigned();
             $table->foreign('ID_PEMESANAN')->references('ID_PEMESANAN')->on('pemesanan_sparepart')->onUpdate('cascade');
             $table->integer('JUMLAH_PEMESANAN');
             $table->double('HARGA_BELI_PEMESANAN');

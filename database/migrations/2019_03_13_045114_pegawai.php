@@ -14,8 +14,8 @@ class Pegawai extends Migration
     public function up()
     {
         Schema::create('pegawai', function (Blueprint $table) {
-            $table->string('ID_PEGAWAI',20)->primary();
-            $table->string('ID_CABANG')->nullable();
+            $table->increments('ID_PEGAWAI');
+            $table->integer('ID_CABANG')->unsigned();
             $table->foreign('ID_CABANG')->references('ID_CABANG')->on('branches')->onUpdate('cascade');
             $table->string('NAMA_PEGAWAI',50);
             $table->string('ALAMAT_PEGAWAI',50);

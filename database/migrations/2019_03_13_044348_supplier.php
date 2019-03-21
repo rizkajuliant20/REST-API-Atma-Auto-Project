@@ -14,7 +14,7 @@ class Supplier extends Migration
     public function up()
     {
         Schema::create('supplier', function (Blueprint $table) {
-            $table->string('ID_SUPPLIER',20)->primary();
+            $table->increments('ID_SUPPLIER');
             $table->string('NAMA_SUPPLIER',40);
             $table->string('ALAMAT_SUPPLIER',60);
             $table->string('TELEPON_SUPPLIER',13);

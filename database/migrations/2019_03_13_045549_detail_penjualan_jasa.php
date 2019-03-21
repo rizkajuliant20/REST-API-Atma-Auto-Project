@@ -17,9 +17,9 @@ class DetailPenjualanJasa extends Migration
             $table->string('ID_DETAIL_PENJUALAN_JASA',20)->primary();
             $table->string('ID_TRANSAKSI')->nullable();
             $table->foreign('ID_TRANSAKSI')->references('ID_TRANSAKSI')->on('transaksi_penjualan')->onUpdate('cascade');
-            $table->string('ID_JASA')->nullable();
+            $table->integer('ID_JASA')->unsigned();
             $table->foreign('ID_JASA')->references('ID_JASA')->on('jasa_service')->onUpdate('cascade');
-            $table->string('ID_MONTIR_ONDUTY')->nullable();
+            $table->integer('ID_MONTIR_ONDUTY')->unsigned();
             $table->foreign('ID_MONTIR_ONDUTY')->references('ID_MONTIR_ONDUTY')->on('montir_onduty')->onUpdate('cascade');
             $table->double('SUBTOTAL_JASA');
             $table->string('STATUS_JASA',20);

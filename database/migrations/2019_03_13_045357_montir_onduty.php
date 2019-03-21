@@ -14,10 +14,10 @@ class MontirOnduty extends Migration
     public function up()
     {
         Schema::create('montir_onduty', function (Blueprint $table) {
-            $table->string('ID_MONTIR_ONDUTY',20)->primary();
-            $table->string('ID_PEGAWAI')->nullable();
+            $table->increments('ID_MONTIR_ONDUTY');
+            $table->integer('ID_PEGAWAI')->unsigned();
             $table->foreign('ID_PEGAWAI')->references('ID_PEGAWAI')->on('pegawai')->onUpdate('cascade');
-            $table->string('ID_KENDARAAN_PEL')->nullable();
+            $table->integer('ID_KENDARAAN_PEL')->unsigned();
             $table->foreign('ID_KENDARAAN_PEL')->references('ID_KENDARAAN_PEL')->on('kendaraan_pelanggan')->onUpdate('cascade');
            
             $table->timestamps();

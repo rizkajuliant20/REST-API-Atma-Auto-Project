@@ -14,7 +14,7 @@ class JasaService extends Migration
     public function up()
     {
         Schema::create('jasa_service', function (Blueprint $table) {
-            $table->string('ID_JASA',20)->primary();
+            $table->increments('ID_JASA');
             $table->string('NAMA_JASA',20);
             $table->double('HARGA_JASA');
          

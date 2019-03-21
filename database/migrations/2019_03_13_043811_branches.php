@@ -14,10 +14,10 @@ class Branches extends Migration
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->string('ID_CABANG',20)->primary();
+            $table->increments('ID_CABANG');
             $table->string('NAMA_CABANG',20);
-            $table->string('ALAMAT_CABANG',20);
-            $table->string('TELEPON_CABANG',20);
+            $table->string('ALAMAT_CABANG',20)->nullable();
+            $table->string('TELEPON_CABANG',20)->nullable();
             $table->timestamps();
         });
     }
