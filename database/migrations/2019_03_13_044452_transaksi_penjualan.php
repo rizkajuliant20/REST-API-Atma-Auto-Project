@@ -19,7 +19,6 @@ class TransaksiPenjualan extends Migration
             $table->foreign('ID_CABANG')->references('ID_CABANG')->on('branches')->onUpdate('cascade');
             $table->string('ID_PELANGGAN')->nullable();
             $table->foreign('ID_PELANGGAN')->references('ID_PELANGGAN')->on('pelanggan')->onUpdate('cascade');
-            
             $table->date('TGL_TRANSAKSI');
             $table->double('SUBTOTAL');
             $table->double('DISKON');
