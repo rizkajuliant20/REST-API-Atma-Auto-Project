@@ -14,9 +14,7 @@ class Posisi_Transformer extends TransformerAbstract
     {
         return [
             'KODE_PENEMPATAN' => $posisi->KODE_PENEMPATAN,
-            'KETERANGAN' => $posisi->KETERANGAN,
-           
-            
+            'KETERANGAN' => $posisi->KETERANGAN
         ];
     }
 }

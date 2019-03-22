@@ -13,6 +13,7 @@ class sparepart extends Model
         'KODE_PENEMPATAN','NAMA_SPAREPART','HARGA_BELI','HARGA_JUAL','STOK_MINIMAL','STOK_BARANG','GAMBAR','TIPE'
     ];
 
+    public $incrementing = false;
     public function posisi()
     {
         return $this->belongsTo(posisi::class,'KODE_PENEMPATAN');

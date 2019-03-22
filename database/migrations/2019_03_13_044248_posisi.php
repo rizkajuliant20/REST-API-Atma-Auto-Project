@@ -16,8 +16,6 @@ class Posisi extends Migration
         Schema::create('posisi', function (Blueprint $table) {
             $table->string('KODE_PENEMPATAN',20)->primary();
             $table->string('KETERANGAN',40);
-        
-           
             $table->timestamps();
         });
     }

@@ -13,6 +13,7 @@ class transaksi_penjualan extends Model
         'ID_CABANG','ID_PELANGGAN','TGL_TRANSAKSI','SUBTOTAL','DISKON','GRANDTOTAL','STATUS_TRANSAKSI'
     ];
     
+    public $incrementing = false;
     public function branches()
     {
         return $this->belongsTo(branches::class,'ID_CABANG');
