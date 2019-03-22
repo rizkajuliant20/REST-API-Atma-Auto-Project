@@ -109,6 +109,7 @@ class PosisiController extends RestController
             {
                 $posisi->KETERANGAN=$request->KETERANGAN;
             }
+
             $success=$posisi->save();
 
             if($success){

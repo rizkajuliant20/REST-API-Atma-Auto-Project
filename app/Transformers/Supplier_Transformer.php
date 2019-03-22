@@ -19,9 +19,6 @@ class Supplier_Transformer extends TransformerAbstract
             'TELEPON_SUPPLIER' => $supplier->TELEPON_SUPPLIER,
             'NAMA_SALES' => $supplier->NAMA_SALES,
             'TELEPON_SALES' => $supplier->TELEPON_SALES,
-            
-           
-            
         ];
     }
 }

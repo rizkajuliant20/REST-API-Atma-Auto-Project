@@ -129,24 +129,44 @@ class SparepartController extends RestController
         ]); 
         try {
             $sparepart=sparepart::find($id);
-            if($request->hasfile('GAMBAR'))
+            if(!is_null($request->GAMBAR))
             {
-                $file = $request->file('GAMBAR');
-                $name=time().$file->getClientOriginalName();
-                $file->move(public_path().'/GAMBAR/', $name);
-                $sparepart->GAMBAR=$name;
+                if($request->hasfile('GAMBAR'))
+                {
+                    $file = $request->file('GAMBAR');
+                    $name=time().$file->getClientOriginalName();
+                    $file->move(public_path().'/GAMBAR/', $name);
+                    $sparepart->GAMBAR=$name;
+                }
+                else{
+                    $sparepart->GAMBAR=NULL;
+                }
+                
+            }if(!is_null($request->ID_SPAREPARTS))
+            {
+                $sparepart->ID_SPAREPARTS=$request->get('ID_SPAREPARTS');
+            }if(!is_null($request->KODE_PENEMPATAN))
+            {
+                $sparepart->KODE_PENEMPATAN=$request->get('KODE_PENEMPATAN');
+            }if(!is_null($request->NAMA_SPAREPART))
+            {
+                $sparepart->NAMA_SPAREPART=$request->get('NAMA_SPAREPART');
+            }if(!is_null($request->HARGA_BELI))
+            {
+                $sparepart->HARGA_BELI=$request->get('HARGA_BELI');
+            }if(!is_null($request->HARGA_JUAL))
+            {
+                $sparepart->HARGA_JUAL=$request->get('HARGA_JUAL');
+            }if(!is_null($request->STOK_MINIMAL))
+            {
+                $sparepart->STOK_MINIMAL=$request->get('STOK_MINIMAL');
+            }if(!is_null($request->STOK_BARANG))
+            {
+                $sparepart->STOK_BARANG=$request->get('STOK_BARANG');
+            }if(!is_null($request->TIPE))
+            {
+                $sparepart->TIPE=$request->get('TIPE');
             }
-            else{
-                $sparepart->GAMBAR=NULL;
-            }
-            $sparepart->ID_SPAREPARTS=$request->get('ID_SPAREPARTS');
-            $sparepart->KODE_PENEMPATAN=$request->get('KODE_PENEMPATAN');
-            $sparepart->NAMA_SPAREPART=$request->get('NAMA_SPAREPART');
-            $sparepart->HARGA_BELI=$request->get('HARGA_BELI');
-            $sparepart->HARGA_JUAL=$request->get('HARGA_JUAL');
-            $sparepart->STOK_MINIMAL=$request->get('STOK_MINIMAL');
-            $sparepart->STOK_BARANG=$request->get('STOK_BARANG');
-            $sparepart->TIPE=$request->get('TIPE');
             $sparepart->save();
             $response = $this->generateItem($sparepart);
             return $this->sendResponse($response, 201);

@@ -56,14 +56,11 @@ class SupplierController extends RestController
             $supplier->NAMA_SALES=$request->NAMA_SALES;
             $supplier->TELEPON_SALES=$request->TELEPON_SALES;
             $success=$supplier->save();
-
-            
             if($success){
                 return response()->json('it is worked', 201);
             }else{
                 return response()->json('failed to save the data!',500);
             }
-
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
