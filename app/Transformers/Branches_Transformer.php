@@ -16,7 +16,7 @@ class Branches_Transformer extends TransformerAbstract
             'ID_CABANG' => $branches->ID_CABANG,
             'NAMA_CABANG' => $branches->NAMA_CABANG,
             'ALAMAT_CABANG' => $branches->ALAMAT_CABANG,
-            'TELPON_CABANG' => $branches->TELPON_CABANG,
+            'TELEPON_CABANG' => $branches->TELEPON_CABANG,
         ];
     }
 }

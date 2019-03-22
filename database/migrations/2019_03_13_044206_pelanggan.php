@@ -17,7 +17,7 @@ class Pelanggan extends Migration
             $table->increments('ID_PELANGGAN');
             $table->string('NAMA_PELANGGAN',20);
             $table->string('TELEPON_PELANGGAN',20);
-            $table->string('ALAMAT_PELANGGAN',20);
+            $table->string('ALAMAT_PELANGGAN',50);
             $table->timestamps();
         });
     }

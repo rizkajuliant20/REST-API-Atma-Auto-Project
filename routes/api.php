@@ -17,5 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::resource('cabang','BranchesController');
 Route::resource('jasa_service','JasaServiceController');
 Route::resource('motor','MotorController');
+Route::resource('pegawai','PegawaiController');
+Route::resource('pelanggan','PelangganController');
+Route::resource('posisi','PosisiController');
+Route::resource('sparepart','SparepartController');
+Route::resource('supplier','SupplierController');
