@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Pelanggan_Transformer;
 
-class pelangganController extends RestController
+class PelangganController extends RestController
 {
     protected $transformer = Pelanggan_Transformer::class;
     /**
@@ -38,31 +38,19 @@ class pelangganController extends RestController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //'ID_CABANG','NAMA_pelanggan','ALAMAT_pelanggan','TELEPON_pelanggan','GAJI_pelanggan','USERNAME','PASSWORD','ROLE'
-    
     public function store(Request $request)
     {
         $this->validate($request,[
-            'ID_CABANG' => 'required',
-            'NAMA_pelanggan' => 'required',
-            'ALAMAT_pelanggan' => 'required',
-            'TELEPON_pelanggan' => 'required',
-            'GAJI_pelanggan' => 'required',
-            'USERNAME' => 'required',
-            'PASSWORD' => 'required',
-            'ROLE' => 'required'
+            'NAMA_PELANGGAN' => 'required',
+            'TELEPON_PELANGGAN' => 'required',
+            'ALAMAT_PELANGGAN' => 'required'
         ]); 
 
         try{
             $pelanggan = new pelanggan;
-            $pelanggan->ID_CABANG=$request->ID_CABANG;
-            $pelanggan->NAMA_pelanggan=$request->NAMA_pelanggan;
-            $pelanggan->ALAMAT_pelanggan=$request->ALAMAT_pelanggan;
-            $pelanggan->TELEPON_pelanggan=$request->TELEPON_pelanggan;
-            $pelanggan->GAJI_pelanggan=$request->GAJI_pelanggan;
-            $pelanggan->USERNAME=$request->USERNAME;
-            $pelanggan->PASSWORD=$request->PASSWORD;
-            $pelanggan->ROLE=$request->ROLE;
+            $pelanggan->NAMA_PELANGGAN=$request->NAMA_PELANGGAN;
+            $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
+            $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
             $success=$pelanggan->save();
 
             if($success){
@@ -89,7 +77,7 @@ class pelangganController extends RestController
             $response = $this->generateItem($pelanggan);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('employee not found!',500);
+            return $this->sendNotFoundResponse('PELANGGAN TIDAK ADA');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
@@ -115,29 +103,14 @@ class pelangganController extends RestController
     {
         try{
             $pelanggan=pelanggan::find($id);
-            if(!is_null($request->NAMA_JASA)){
-                $pelanggan->ID_CABANG=$request->ID_CABANG;
-            }if(!is_null($request->NAMA_pelanggan))
+            if(!is_null($request->NAMA_PELANGGAN)){
+                $pelanggan->NAMA_PELANGGAN=$request->NAMA_PELANGGAN;
+            }if(!is_null($request->TELEPON_PELANGGAN))
             {
-                $pelanggan->NAMA_pelanggan=$request->NAMA_pelanggan;
-            }if(!is_null($request->ALAMAT_pelanggan))
+                $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
+            }if(!is_null($request->ALAMAT_PELANGGAN))
             {
-                $pelanggan->ALAMAT_pelanggan=$request->ALAMAT_pelanggan;
-            }if(!is_null($request->TELEPON_pelanggan))
-            {
-                $pelanggan->TELEPON_pelanggan=$request->TELEPON_pelanggan;
-            }if(!is_null($request->GAJI_pelanggan))
-            {
-                $pelanggan->GAJI_pelanggan=$request->GAJI_pelanggan;
-            }if(!is_null($request->PASSWORD))
-            {
-                $pelanggan->PASSWORD=$request->PASSWORD;
-            }if(!is_null($ROLE->HARGA_JASA))
-            {
-                $pelanggan->ROLE=$request->ROLE;
-            }if(!is_null($request->HARGA_JASA))
-            {
-                $pelanggan->HARGA_JASA=$request->HARGA_JASA;
+                $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
             }
             $success=$pelanggan->save();
 
@@ -147,7 +120,7 @@ class pelangganController extends RestController
                 return response()->json('failed to save the data!',500);
             }
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('employee not found!',500);
+            return $this->sendNotFoundResponse('customer is not found!');
         }catch(\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
@@ -165,7 +138,7 @@ class pelangganController extends RestController
             $pelanggan->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('service not found!');
+            return $this->sendNotFoundResponse('customer not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }

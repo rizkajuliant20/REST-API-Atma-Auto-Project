@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\pelanggan;
+use App\branches;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Transformers\Pelanggan_Transformer;
+use App\Transformers\branches_Transformer;
 
-class PelangganController extends RestController
+class BranchesController extends RestController
 {
-    protected $transformer = Pelanggan_Transformer::class;
+    protected $transformer = branches_Transformer::class;
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +20,8 @@ class PelangganController extends RestController
      */
     public function index()
     {
-        $pelanggan = pelanggan::all();
-        return response()->json($pelanggan,200);
+        $branches = branches::all();
+        return response()->json($branches,200);
     }
     /**
      * Show the form for creating a new resource.
@@ -41,17 +41,17 @@ class PelangganController extends RestController
     public function store(Request $request)
     {
         $this->validate($request,[
-            'NAMA_PELANGGAN' => 'required',
-            'TELEPON_PELANGGAN' => 'required',
-            'ALAMAT_PELANGGAN' => 'required'
+            'NAMA_CABANG' => 'required',
+            'TELEPON_CABANG' => 'required',
+            'ALAMAT_CABANG' => 'required'
         ]); 
 
         try{
-            $pelanggan = new pelanggan;
-            $pelanggan->NAMA_PELANGGAN=$request->NAMA_PELANGGAN;
-            $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
-            $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
-            $success=$pelanggan->save();
+            $branches = new branches;
+            $branches->NAMA_CABANG=$request->NAMA_CABANG;
+            $branches->TELEPON_CABANG=$request->TELEPON_CABANG;
+            $branches->ALAMAT_CABANG=$request->ALAMAT_CABANG;
+            $success=$branches->save();
 
             if($success){
                 return response()->json('it is worked', 201);
@@ -73,11 +73,11 @@ class PelangganController extends RestController
     public function show($id)
     {
         try {
-            $pelanggan=pelanggan::find($id);
-            $response = $this->generateItem($pelanggan);
+            $branches=branches::find($id);
+            $response = $this->generateItem($branches);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('PELANGGAN TIDAK ADA');
+            return $this->sendNotFoundResponse('branch is not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
@@ -102,17 +102,17 @@ class PelangganController extends RestController
     public function update(Request $request, $id)
     {
         try{
-            $pelanggan=pelanggan::find($id);
-            if(!is_null($request->NAMA_PELANGGAN)){
-                $pelanggan->NAMA_PELANGGAN=$request->NAMA_PELANGGAN;
-            }if(!is_null($request->TELEPON_PELANGGAN))
+            $branches=branches::find($id);
+            if(!is_null($request->NAMA_CABANG)){
+                $branches->NAMA_CABANG=$request->NAMA_CABANG;
+            }if(!is_null($request->ALAMAT_CABANG))
             {
-                $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
-            }if(!is_null($request->ALAMAT_PELANGGAN))
+                $branches->ALAMAT_CABANG=$request->ALAMAT_CABANG;
+            }if(!is_null($request->TELEPON_CABANG))
             {
-                $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
+                $branches->TELEPON_CABANG=$request->TELEPON_CABANG;
             }
-            $success=$pelanggan->save();
+            $success=$branches->save();
 
             if($success){
                 return response()->json('it is worked', 201);
@@ -120,7 +120,7 @@ class PelangganController extends RestController
                 return response()->json('failed to save the data!',500);
             }
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('PELANGGAN TIDAK ADA');
+            return $this->sendNotFoundResponse('branch is not found!');
         }catch(\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
@@ -134,11 +134,11 @@ class PelangganController extends RestController
     public function destroy($id)
     {
         try {
-            $pelanggan=pelanggan::find($id);
-            $pelanggan->delete();
+            $branches=branches::find($id);
+            $branches->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('service not found!');
+            return $this->sendNotFoundResponse('branch is not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
