@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Jasa_Service_Transformer;
 
-class Jasa_ServiceController extends RestController
+class JasaServiceController extends RestController
 {
     protected $transformer = Jasa_Service_Transformer::class;
     /**
@@ -21,8 +21,7 @@ class Jasa_ServiceController extends RestController
     public function index()
     {
         $jasa_service = jasa_service::all();
-        $response = $this->generateCollection($jasa_service);
-        return $this->sendResponse($response);
+        return response()->json($jasa_service,200);
     }
     /**
      * Show the form for creating a new resource.
@@ -42,20 +41,26 @@ class Jasa_ServiceController extends RestController
     public function store(Request $request)
     {
         $this->validate($request,[
-            'NAMA_SERVICE' => 'required',
-            'HARGA_JASA' => 'required',
-        ]);   
-        try {
-                $jasa_service = new jasa_service;
-                $jasa_service->NAMA_JASA=$request->get('NAMA_JASA');
-                $jasa_service->HARGA_JASA=$request->get('HARGA_JASA');
-                $jasa_service->save();
-                $response = $this->generateItem($jasa_service);
-                return $this->sendResponse($response, 201);
-           
+            'NAMA_JASA' => 'required',
+            'HARGA_JASA' => 'required'
+        ]); 
+
+        try{
+            $jasa_service = new jasa_service;
+            $jasa_service->NAMA_JASA=$request->NAMA_JASA;
+            $jasa_service->HARGA_JASA=$request->HARGA_JASA;
+            $success=$jasa_service->save();
+
+            if($success){
+                return response()->json('it is worked', 201);
+            }else{
+                return response()->json('failed to save the data!',500);
+            }
+
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
+        
     }
     /**
      * Display the specified resource.
