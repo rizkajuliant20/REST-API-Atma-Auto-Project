@@ -99,22 +99,24 @@ class JasaServiceController extends RestController
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'NAMA_JASA' => 'required',
-            'HARGA_JASA' => 'required',
-        ]);
-        
-        try {
+        try{
             $jasa_service=jasa_service::find($id);
-            $jasa_service->NAMA_JASA=$request->get('NAMA_JASA');
-            $jasa_service->HARGA_JASA=$request->get('HARGA_JASA');
-            $jasa_service->save();
-            $response = $this->generateItem($service);
-            return $this->sendResponse($response, 201);
-        }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('JASA TIDAK ADA');
-        }
-        catch (\Exception $e) {
+            if(!is_null($request->NAMA_JASA)){
+                $jasa_service->NAMA_JASA=$request->NAMA_JASA;
+            }if(!is_null($request->HARGA_JASA))
+            {
+                $jasa_service->HARGA_JASA=$request->HARGA_JASA;
+            }
+            $success=$jasa_service->save();
+
+            if($success){
+                return response()->json('it is worked', 201);
+            }else{
+                return response()->json('failed to save the data!',500);
+            }
+        }catch(ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('CABANG TIDAK ADA');
+        }catch(\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -131,7 +133,7 @@ class JasaServiceController extends RestController
             $jasa_service->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('JASA TIDAK ADA');
+            return $this->sendNotFoundResponse('service not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
