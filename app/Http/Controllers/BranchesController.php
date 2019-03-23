@@ -51,15 +51,10 @@ class BranchesController extends RestController
             $branches->NAMA_CABANG=$request->NAMA_CABANG;
             $branches->TELEPON_CABANG=$request->TELEPON_CABANG;
             $branches->ALAMAT_CABANG=$request->ALAMAT_CABANG;
-            $success=$branches->save();
-
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
-
+            $branches->save();
+            return response()->json('Success', 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
         
@@ -77,8 +72,9 @@ class BranchesController extends RestController
             $response = $this->generateItem($branches);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('branch is not found!');
+            return $this->sendNotFoundResponse('Branch is not found!');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -102,26 +98,24 @@ class BranchesController extends RestController
     public function update(Request $request, $id)
     {
         try{
-            $branches=branches::find($id);
-            if(!is_null($request->NAMA_CABANG)){
-                $branches->NAMA_CABANG=$request->NAMA_CABANG;
-            }if(!is_null($request->ALAMAT_CABANG))
-            {
-                $branches->ALAMAT_CABANG=$request->ALAMAT_CABANG;
-            }if(!is_null($request->TELEPON_CABANG))
-            {
-                $branches->TELEPON_CABANG=$request->TELEPON_CABANG;
-            }
-            $success=$branches->save();
+            $this->validate($request,[
+                'NAMA_CABANG' => 'required',
+                'TELEPON_CABANG' => 'required',
+                'ALAMAT_CABANG' => 'required'
+            ]); 
 
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $branches=branches::find($id);
+
+            $branches->update([
+                'NAMA_CABANG'=>$request->NAMA_CABANG,      
+                'ALAMAT_CABANG'=>$request->ALAMAT_CABANG,        
+                'TELEPON_CABANG'=>$request->TELEPON_CABANG,
+            ]);
+            return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('branch is not found!');
+            return $this->sendNotFoundResponse('Branch is not found!');
         }catch(\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -138,8 +132,9 @@ class BranchesController extends RestController
             $branches->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('branch is not found!');
+            return $this->sendNotFoundResponse('Branch is not found!');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }

@@ -51,31 +51,33 @@ class SparepartController extends RestController
             'GAMBAR' => 'required',
             'TIPE' => 'required',
         ]);   
+
         try {
-                $sparepart = new sparepart;
-                if($request->hasfile('GAMBAR'))
-                {
-                    $file = $request->file('GAMBAR');
-                    $name=time().$file->getClientOriginalName();
-                    $file->move(public_path().'/GAMBAR/', $name);
-                    $sparepart->GAMBAR=$name;
-                }
-                else{
-                    $sparepart->GAMBAR=NULL;
-                }
-                
-                $sparepart->ID_SPAREPARTS=$request->get('ID_SPAREPARTS');
-                $sparepart->KODE_PENEMPATAN=$request->get('KODE_PENEMPATAN');
-                $sparepart->NAMA_SPAREPART=$request->get('NAMA_SPAREPART');
-                $sparepart->HARGA_BELI=$request->get('HARGA_BELI');
-                $sparepart->HARGA_JUAL=$request->get('HARGA_JUAL');
-                $sparepart->STOK_MINIMAL=$request->get('STOK_MINIMAL');
-                $sparepart->STOK_BARANG=$request->get('STOK_BARANG');
-                $sparepart->TIPE=$request->get('TIPE');
-                $sparepart->save();
-                $response = $this->generateItem($sparepart);
-                return $this->sendResponse($response, 201);
+            $sparepart = new sparepart;
+
+            if($request->hasfile('GAMBAR'))
+            {
+                $file = $request->file('GAMBAR');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/GAMBAR/', $name);
+                $sparepart->GAMBAR=$name;
+            }
+            else{
+                $sparepart->GAMBAR=NULL;
+            }
+            $sparepart->ID_SPAREPARTS=$request->get('ID_SPAREPARTS');
+            $sparepart->KODE_PENEMPATAN=$request->get('KODE_PENEMPATAN');
+            $sparepart->NAMA_SPAREPART=$request->get('NAMA_SPAREPART');
+            $sparepart->HARGA_BELI=$request->get('HARGA_BELI');
+            $sparepart->HARGA_JUAL=$request->get('HARGA_JUAL');
+            $sparepart->STOK_MINIMAL=$request->get('STOK_MINIMAL');
+            $sparepart->STOK_BARANG=$request->get('STOK_BARANG');
+            $sparepart->TIPE=$request->get('TIPE');
+            $sparepart->save();
+            $response = $this->generateItem($sparepart);
+            return $this->sendResponse($response, 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -92,8 +94,9 @@ class SparepartController extends RestController
             $response = $this->generateItem($sparepart);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('sparepart_not_found');
+            return $this->sendNotFoundResponse('Sparepart is not found');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -127,53 +130,37 @@ class SparepartController extends RestController
             'GAMBAR' => 'required',
             'TIPE' => 'required',
         ]); 
+
         try {
             $sparepart=sparepart::find($id);
-            if(!is_null($request->GAMBAR))
+
+            if($request->hasfile('GAMBAR'))
             {
-                if($request->hasfile('GAMBAR'))
-                {
-                    $file = $request->file('GAMBAR');
-                    $name=time().$file->getClientOriginalName();
-                    $file->move(public_path().'/GAMBAR/', $name);
-                    $sparepart->GAMBAR=$name;
-                }
-                else{
-                    $sparepart->GAMBAR=NULL;
-                }
-                
-            }if(!is_null($request->ID_SPAREPARTS))
-            {
-                $sparepart->ID_SPAREPARTS=$request->get('ID_SPAREPARTS');
-            }if(!is_null($request->KODE_PENEMPATAN))
-            {
-                $sparepart->KODE_PENEMPATAN=$request->get('KODE_PENEMPATAN');
-            }if(!is_null($request->NAMA_SPAREPART))
-            {
-                $sparepart->NAMA_SPAREPART=$request->get('NAMA_SPAREPART');
-            }if(!is_null($request->HARGA_BELI))
-            {
-                $sparepart->HARGA_BELI=$request->get('HARGA_BELI');
-            }if(!is_null($request->HARGA_JUAL))
-            {
-                $sparepart->HARGA_JUAL=$request->get('HARGA_JUAL');
-            }if(!is_null($request->STOK_MINIMAL))
-            {
-                $sparepart->STOK_MINIMAL=$request->get('STOK_MINIMAL');
-            }if(!is_null($request->STOK_BARANG))
-            {
-                $sparepart->STOK_BARANG=$request->get('STOK_BARANG');
-            }if(!is_null($request->TIPE))
-            {
-                $sparepart->TIPE=$request->get('TIPE');
+                $file = $request->file('GAMBAR');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/GAMBAR/', $name);
+                $sparepart->GAMBAR=$name;
+            }
+            else{
+                $sparepart->GAMBAR=NULL;
             }
             $sparepart->save();
-            $response = $this->generateItem($sparepart);
-            return $this->sendResponse($response, 201);
+            
+            $sparepart->update([
+                'ID_SPAREPARTS'=>$request->get('ID_SPAREPARTS'),
+                'KODE_PENEMPATAN'=>$request->get('KODE_PENEMPATAN'),
+                'NAMA_SPAREPART'=>$request->get('NAMA_SPAREPART'),
+                'HARGA_BELI'=>$request->get('HARGA_BELI'),
+                'HARGA_JUAL'=>$request->get('HARGA_JUAL'),
+                'STOK_MINIMAL'=>$request->get('STOK_MINIMAL'),
+                'STOK_BARANG'=>$request->get('STOK_BARANG'),
+                'TIPE'=>$request->get('TIPE'),
+            ]);
+            return response()->json('Success', 200);
         }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('sparepart_not_found');
-        }
-        catch (\Exception $e) {
+            return $this->sendNotFoundResponse('Sparepart is not found');
+        }catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -190,8 +177,9 @@ class SparepartController extends RestController
             $sparepart->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('sparepart_not_found');
+            return $this->sendNotFoundResponse('Sparepart is not found');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }

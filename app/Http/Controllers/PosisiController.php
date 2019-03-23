@@ -52,14 +52,9 @@ class PosisiController extends RestController
             $posisi->KODE_PENEMPATAN=$request->KODE_PENEMPATAN;
             $posisi->KETERANGAN=$request->KETERANGAN;
             $success=$posisi->save();
-
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
-
+            return response()->json('Success', 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
         
@@ -77,8 +72,9 @@ class PosisiController extends RestController
             $response = $this->generateItem($posisi);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('position is not found!',500);
+            return $this->sendNotFoundResponse('Position is not found!',500);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -102,24 +98,22 @@ class PosisiController extends RestController
     public function update(Request $request, $id)
     {
         try{
+            $this->validate($request,[
+                'KODE_PENEMPATAN' => 'required',
+                'KETERANGAN' => 'required'
+            ]); 
+
             $posisi=posisi::find($id);
-            if(!is_null($request->KODE_PENEMPATAN)){
-                $posisi->KODE_PENEMPATAN=$request->KODE_PENEMPATAN;
-            }if(!is_null($request->KETERANGAN))
-            {
-                $posisi->KETERANGAN=$request->KETERANGAN;
-            }
 
-            $success=$posisi->save();
-
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $posisi->update([
+                'KODE_PENEMPATAN'=>$request->KODE_PENEMPATAN,
+                'KETERANGAN'=>$request->KETERANGAN,
+            ]);
+            return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('position is not found!',500);
+            return $this->sendNotFoundResponse('Position is not found!',500);
         }catch(\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -136,7 +130,7 @@ class PosisiController extends RestController
             $posisi->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('service not found!');
+            return $this->sendNotFoundResponse('Position is not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }

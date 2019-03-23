@@ -55,13 +55,10 @@ class SupplierController extends RestController
             $supplier->TELEPON_SUPPLIER=$request->TELEPON_SUPPLIER;
             $supplier->NAMA_SALES=$request->NAMA_SALES;
             $supplier->TELEPON_SALES=$request->TELEPON_SALES;
-            $success=$supplier->save();
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $supplier->save();
+            return response()->json('Success', 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
         
@@ -79,8 +76,9 @@ class SupplierController extends RestController
             $response = $this->generateItem($supplier);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('supplier TIDAK ADA');
+            return $this->sendNotFoundResponse('Supplier is not found');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -104,32 +102,28 @@ class SupplierController extends RestController
     public function update(Request $request, $id)
     {
         try{
-            $supplier=supplier::find($id);
-            if(!is_null($request->NAMA_SUPPLIER)){
-                $supplier->NAMA_SUPPLIER=$request->NAMA_SUPPLIER;
-            }if(!is_null($request->ALAMAT_SUPPLIER))
-            {
-                $supplier->ALAMAT_SUPPLIER=$request->ALAMAT_SUPPLIER;
-            }if(!is_null($request->TELEPON_SUPPLIER))
-            {
-                $supplier->TELEPON_SUPPLIER=$request->TELEPON_SUPPLIER;
-            }if(!is_null($request->NAMA_SALES))
-            {
-                $supplier->NAMA_SALES=$request->NAMA_SALES;
-            }if(!is_null($request->TELEPON_SALES))
-            {
-                $supplier->TELEPON_SALES=$request->TELEPON_SALES;
-            }
-            $success=$supplier->save();
+            $this->validate($request,[
+                'NAMA_SUPPLIER' => 'required',
+                'ALAMAT_SUPPLIER' => 'required',
+                'TELEPON_SUPPLIER' => 'required',
+                'NAMA_SALES' => 'required',
+                'TELEPON_SALES' => 'required'
+            ]); 
 
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $supplier=supplier::find($id);
+
+            $supplier->update([
+                'NAMA_SUPPLIER' => $request->NAMA_SUPPLIER,
+                'ALAMAT_SUPPLIER' => $request->ALAMAT_SUPPLIER,
+                'TELEPON_SUPPLIER' => $request->TELEPON_SUPPLIER,
+                'NAMA_SALES' => $request->NAMA_SALES,
+                'TELEPON_SALES' => $request->TELEPON_SALES,
+            ]);
+            return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('PELANGGAN TIDAK ADA');
+            return $this->sendNotFoundResponse('Supplier not found!');
         }catch(\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -146,8 +140,9 @@ class SupplierController extends RestController
             $supplier->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('service not found!');
+            return $this->sendNotFoundResponse('Supplier not found!');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }

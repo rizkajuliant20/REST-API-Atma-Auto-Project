@@ -52,14 +52,9 @@ class PelangganController extends RestController
             $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
             $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
             $success=$pelanggan->save();
-
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
-
+            return response()->json('Success', 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
         
@@ -77,8 +72,9 @@ class PelangganController extends RestController
             $response = $this->generateItem($pelanggan);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('PELANGGAN TIDAK ADA');
+            return $this->sendNotFoundResponse('Customer is not found');
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -102,26 +98,24 @@ class PelangganController extends RestController
     public function update(Request $request, $id)
     {
         try{
-            $pelanggan=pelanggan::find($id);
-            if(!is_null($request->NAMA_PELANGGAN)){
-                $pelanggan->NAMA_PELANGGAN=$request->NAMA_PELANGGAN;
-            }if(!is_null($request->TELEPON_PELANGGAN))
-            {
-                $pelanggan->TELEPON_PELANGGAN=$request->TELEPON_PELANGGAN;
-            }if(!is_null($request->ALAMAT_PELANGGAN))
-            {
-                $pelanggan->ALAMAT_PELANGGAN=$request->ALAMAT_PELANGGAN;
-            }
-            $success=$pelanggan->save();
+            $this->validate($request,[
+                'NAMA_PELANGGAN' => 'required',
+                'TELEPON_PELANGGAN' => 'required',
+                'ALAMAT_PELANGGAN' => 'required'
+            ]); 
 
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $pelanggan=pelanggan::find($id);
+
+            $pelanggan->update([
+                'NAMA_PELANGGAN'=>$request->NAMA_PELANGGAN,
+                'TELEPON_PELANGGAN'=>$request->TELEPON_PELANGGAN,
+                'ALAMAT_PELANGGAN'=>$request->ALAMAT_PELANGGAN,
+            ]);
+            return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('customer is not found!');
+            return $this->sendNotFoundResponse('Customer is not found!');
         }catch(\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -138,7 +132,7 @@ class PelangganController extends RestController
             $pelanggan->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('customer not found!');
+            return $this->sendNotFoundResponse('Customer not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }

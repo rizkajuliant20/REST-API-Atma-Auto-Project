@@ -49,15 +49,10 @@ class MotorController extends RestController
             $motor = new motor;
             $motor->MERK_MOTOR=$request->MERK_MOTOR;
             $motor->TIPE_MOTOR=$request->TIPE_MOTOR;
-            $success=$motor->save();
-
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
-
+            $motor->save();
+            return response()->json('Success', 200);
         } catch (\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
         
@@ -75,7 +70,7 @@ class MotorController extends RestController
             $response = $this->generateItem($motor);
             return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('MOTOR TIDAK ADA');
+            return $this->sendNotFoundResponse('Type is not found');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
@@ -100,23 +95,22 @@ class MotorController extends RestController
     public function update(Request $request, $id)
     {
         try{
-            $motor=motor::find($id);
-            if(!is_null($request->MERK_MOTOR)){
-                $motor->MERK_MOTOR=$request->MERK_MOTOR;
-            }if(!is_null($request->TIPE_MOTOR))
-            {
-                $motor->TIPE_MOTOR=$request->TIPE_MOTOR;
-            }
-            $success=$motor->save();
+            $this->validate($request,[
+                'MERK_MOTOR' => 'required',
+                'TIPE_MOTOR' => 'required'
+            ]); 
 
-            if($success){
-                return response()->json('it is worked', 201);
-            }else{
-                return response()->json('failed to save the data!',500);
-            }
+            $motor=motor::find($id);
+            
+            $motor->update([
+                'MERK_MOTOR'=>$request->MERK_MOTOR,
+                'TIPE_MOTOR'=>$request->TIPE_MOTOR,
+            ]);
+            return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('motor TIDAK ADA');
+            return $this->sendNotFoundResponse('Type is not found');
         }catch(\Exception $e) {
+            throw $e;
             return $this->sendIseResponse($e->getMessage());
         }
     }
@@ -133,7 +127,7 @@ class MotorController extends RestController
             $motor->delete();
             return response()->json('Success',200);
         } catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('motor not found!');
+            return $this->sendNotFoundResponse('Type is not found!');
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
