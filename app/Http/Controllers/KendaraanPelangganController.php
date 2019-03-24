@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Kendaraan_Pelanggan_Transformer;
 
-class KendaraanPelangganController extends Controller
+class KendaraanPelangganController extends RestController
 {
     protected $transformer = Kendaraan_Pelanggan_Transformer::class;
     /**

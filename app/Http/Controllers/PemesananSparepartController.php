@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Pemesanan_Sparepart_Transformer;
 
-class PemesananSparepartController extends Controller
+class PemesananSparepartController extends RestController
 {
     //
 }

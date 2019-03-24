@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Sparepart_Motor_Transformer;
 
-class SparepartMotorController extends Controller
+class SparepartMotorController extends RestController
 {
     protected $transformer = Sparepart_Motor_Transformer::class;
     /**

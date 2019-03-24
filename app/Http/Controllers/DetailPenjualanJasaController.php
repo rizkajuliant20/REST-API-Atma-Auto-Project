@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Detail_Penjualan_Jasa_Transformer;
 
-class DetailPenjualanJasaController extends Controller
+class DetailPenjualanJasaController extends RestController
 {
     //
 }

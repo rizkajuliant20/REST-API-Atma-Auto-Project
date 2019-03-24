@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Transaksi_Penjualan_Transformer;
 
-class TransaksiPenjualanController extends Controller
+class TransaksiPenjualanController extends RestController
 {
     //
 }

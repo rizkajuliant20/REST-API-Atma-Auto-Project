@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Pegawai_Onduty_Transformer;
 
-class PegawaiOnDutyController extends Controller
+class PegawaiOnDutyController extends RestController
 {
     protected $transformer = Pegawai_Onduty_Transformer::class;
     /**

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Detail_Penjualan_Sparepart_Transformer;
 
-class DetailPenjualanSparepartController extends Controller
+class DetailPenjualanSparepartController extends RestController
 {
     //
 }

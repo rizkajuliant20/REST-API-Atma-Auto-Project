@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Montir_Onduty_Transformer;
 
-class MontirOnDutyController extends Controller
+class MontirOnDutyController extends RestController
 {
     protected $transformer = Montir_Onduty_Transformer::class;
     /**

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Detail_Pemesanan_Transformer;
 
-class DetailPemesananController extends Controller
+class DetailPemesananController extends RestController
 {
     //
 }
