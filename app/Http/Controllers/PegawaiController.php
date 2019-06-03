@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\pegawai;
+use App\user;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\Pegawai_Transformer;
+use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends RestController
 {
@@ -38,33 +41,44 @@ class PegawaiController extends RestController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //'ID_CABANG','NAMA_PEGAWAI','ALAMAT_PEGAWAI','TELEPON_PEGAWAI','GAJI_PEGAWAI','USERNAME','PASSWORD','ROLE'
     
     public function store(Request $request)
     {
+        
         $this->validate($request,[
-            'ID_CABANG' => 'required',
             'NAMA_PEGAWAI' => 'required',
             'ALAMAT_PEGAWAI' => 'required',
             'TELEPON_PEGAWAI' => 'required',
             'GAJI_PEGAWAI' => 'required',
-            'USERNAME' => 'required',
-            'PASSWORD' => 'required',
-            'ROLE' => 'required'
+            'ID_CABANG' => 'required',
+            'ROLE' => 'required',
         ]); 
 
+        $data = [
+            'NAMA_PEGAWAI' => $request->NAMA_PEGAWAI,
+            'ALAMAT_PEGAWAI'=>$request->ALAMAT_PEGAWAI,
+            'TELEPON_PEGAWAI'=>$request->TELEPON_PEGAWAI,
+            'GAJI_PEGAWAI'=>$request->GAJI_PEGAWAI,
+            'ID_CABANG' => $request->ID_CABANG,
+            'ROLE'=>$request->ROLE
+        ];
+
+        $nama=$request->NAMA_PEGAWAI;
+        $role=$request->ROLE;
+        $count = user::get()->count()+1;
+
         try{
-            $pegawai = new pegawai;
-            $pegawai->ID_CABANG=$request->ID_CABANG;
-            $pegawai->NAMA_PEGAWAI=$request->NAMA_PEGAWAI;
-            $pegawai->ALAMAT_PEGAWAI=$request->ALAMAT_PEGAWAI;
-            $pegawai->TELEPON_PEGAWAI=$request->TELEPON_PEGAWAI;
-            $pegawai->GAJI_PEGAWAI=$request->GAJI_PEGAWAI;
-            $pegawai->USERNAME=$request->USERNAME;
-            $pegawai->PASSWORD=$request->PASSWORD;
-            $pegawai->ROLE=$request->ROLE;
+            $pegawai = DB::transaction(function () use ($data, $nama, $count, $role) {
+                $user = user::create([
+                    'username' => $role . '-' . $nama . '-' . $count,
+                    'password' => bcrypt($role . '-' . $nama . '-' . $count ),
+                ]);
+                return $user->pegawai()->create($data);
+            });
+            
             $success=$pegawai->save();
             return response()->json('Success', 200);
+            
         } catch (\Exception $e) {
             throw $e;
             return $this->sendIseResponse($e->getMessage());
@@ -111,27 +125,23 @@ class PegawaiController extends RestController
     {
         try{
             $this->validate($request,[
-                'ID_CABANG' => 'required',
                 'NAMA_PEGAWAI' => 'required',
                 'ALAMAT_PEGAWAI' => 'required',
                 'TELEPON_PEGAWAI' => 'required',
                 'GAJI_PEGAWAI' => 'required',
-                'USERNAME' => 'required',
-                'PASSWORD' => 'required',
+                'ID_CABANG' => 'required',
                 'ROLE' => 'required'
             ]); 
 
             $pegawai=pegawai::find($id);
 
             $pegawai->update([
-                'ID_CABANG' => $request->ID_CABANG,
                 'NAMA_PEGAWAI' => $request->NAMA_PEGAWAI,
                 'ALAMAT_PEGAWAI'=>$request->ALAMAT_PEGAWAI,
                 'TELEPON_PEGAWAI'=>$request->TELEPON_PEGAWAI,
                 'GAJI_PEGAWAI'=>$request->GAJI_PEGAWAI,
-                'PASSWORD'=>$request->PASSWORD,
-                'ROLE'=>$request->ROLE,
-                'HARGA_JASA'=>$request->HARGA_JASA,
+                'ID_CABANG' => $request->ID_CABANG,
+                'ROLE'=>$request->ROLE
             ]);
             return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {

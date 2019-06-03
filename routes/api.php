@@ -18,6 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
+Route::post('/authentication', 'TokenController@Auth');
+Route::post('/mobileauth', 'TokenController@mobileAuth');
+Route::get('/online', 'TokenController@validateToken');
+
 Route::get('branches','BranchesController@index');
 Route::post('branches','BranchesController@store');
 Route::get('/branches/{id}','BranchesController@show');
@@ -29,6 +34,7 @@ Route::post('detailPemesanan','DetailPemesananController@store');
 Route::get('/detailPemesanan/{id}','DetailPemesananController@show');
 Route::put('/detailPemesanan/{id}','DetailPemesananController@update');
 Route::delete('/detailPemesanan/{id}','DetailPemesananController@destroy');
+Route::delete('/detailPemesanan/{idorder}/{idspa}','DetailPemesananController@hapusDetailOrder');
 
 Route::get('detailPenjualanJasa','DetailPenjualanJasaController@index');
 Route::post('detailPenjualanJasa','DetailPenjualanJasaController@store');
@@ -71,6 +77,7 @@ Route::post('pegawai','PegawaiController@store');
 Route::get('/pegawai/{id}','PegawaiController@show');
 Route::put('/pegawai/{id}','PegawaiController@update');
 Route::delete('/pegawai/{id}','PegawaiController@destroy');
+Route::post('/pegawai/login','PegawaiController@login');
 
 Route::get('pegawaiOnDuty','PegawaiOnDutyController@index');
 Route::post('pegawaiOnDuty','PegawaiOnDutyController@store');
@@ -101,12 +108,20 @@ Route::post('spareparts','SparepartController@store');
 Route::get('/spareparts/{id}','SparepartController@show');
 Route::put('/spareparts/{id}','SparepartController@update');
 Route::delete('/spareparts/{id}','SparepartController@destroy');
+Route::post('updateGambar/{id}','SparepartController@updateGambar');
+Route::post('updateImageMobile','SparepartController@updateImageMobile');
+Route::get('sortJumlahAsc','SparepartController@indexAscJumlah');
+Route::get('sortJumlahDesc','SparepartController@indexDescJumlah');
+Route::get('sortHargaAsc','SparepartController@indexAscHarga');
+Route::get('sortHargaDesc','SparepartController@indexDescHarga');
 
 Route::get('sparepartMotor','SparepartMotorController@index');
 Route::post('sparepartMotor','SparepartMotorController@store');
 Route::get('/sparepartMotor/{id}','SparepartMotorController@show');
 Route::put('/sparepartMotor/{id}','SparepartMotorController@update');
 Route::delete('/sparepartMotor/{id}','SparepartMotorController@destroy');
+Route::delete('/sparepartMotor/{id}/{idM}','SparepartMotorController@hapus');
+Route::get('/showMatch/{idSparepart}','SparepartMotorController@showMatch');
 
 Route::get('suppliers','SupplierController@index');
 Route::post('suppliers','SupplierController@store');
@@ -120,12 +135,37 @@ Route::get('/transaksiPenjualan/{id}','TransaksiPenjualanController@show');
 Route::put('/transaksiPenjualan/{id}','TransaksiPenjualanController@update');
 Route::delete('/transaksiPenjualan/{id}','TransaksiPenjualanController@destroy');
 
+Route::get('users','UserController@index');
+Route::post('users','UserController@store');
+Route::get('/users/{id}','UserController@show');
+Route::put('/users/{id}','UserController@update');
+Route::delete('/users/{id}','UserController@destroy');
 
-// Route::resource('cabang','BranchesController');
-// Route::resource('jasa_service','JasaServiceController');
-// Route::resource('motor','MotorController');
-// Route::resource('pegawai','PegawaiController');
-// Route::resource('pelanggan','PelangganController');
-// Route::resource('posisi','PosisiController');
-// Route::resource('sparepart','SparepartController');
-// Route::resource('supplier','SupplierController');
+Route::get('tokens','TokenController@index');
+Route::post('tokens','TokenController@store');
+Route::get('/tokens/{id}','TokenController@show');
+Route::put('/tokens/{id}','TokenController@update');
+Route::delete('/tokens/{id}','TokenController@destroy');
+
+
+
+
+
+
+//  Route::resource('branches','BranchesController');
+//  Route::resource('jasa_service','JasaServiceController');
+//  Route::resource('motor','MotorController');
+//  Route::resource('pegawai','PegawaiController');
+//  Route::resource('pelanggan','PelangganController');
+//  Route::resource('posisi','PosisiController');
+//  Route::resource('sparepart','SparepartController');
+//  Route::resource('supplier','SupplierController');
+//  Route::resource('detail_pemesanan','DetailPemesananController');
+//  Route::resource('detail_penjualan_jasa','DetailPenjualanJasaController');
+//  Route::resource('detail_penjualan_sparepart','DetailPenjualanSparepartController');
+//  Route::resource('pemesanan_sparepart','PemesananSparepartController');
+//  Route::resource('transaksi_penjualan','TransaksiPenjualanController');
+//  Route::resource('kendaraan_pelanggan','KendaraanPelangganController');
+//  Route::resource('montir_onduty','MontirOnDutyController');
+//  Route::resource('pegawai_onduty','PegawaiOnDutyController');
+//  Route::resource('sparepart_motor','SparepartMotorController');

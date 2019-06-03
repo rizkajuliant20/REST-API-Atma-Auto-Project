@@ -10,7 +10,7 @@ class transaksi_penjualan extends Model
     protected $primaryKey="ID_TRANSAKSI";
     public $timestamps=true;
     protected $fillable=[
-        'ID_CABANG','ID_PELANGGAN','TGL_TRANSAKSI','SUBTOTAL','DISKON','GRANDTOTAL','STATUS_TRANSAKSI'
+        'ID_CABANG','ID_PELANGGAN','TGL_TRANSAKSI','SUBTOTAL','DISKON','GRANDTOTAL','STATUS_TRANSAKSI','JENIS_TRANSAKSI',
     ];
     
     public $incrementing = false;

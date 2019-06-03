@@ -16,12 +16,12 @@ class KendaraanPelanggan extends Migration
         Schema::create('kendaraan_pelanggan', function (Blueprint $table) {
             $table->increments('ID_KENDARAAN_PEL');
             $table->integer('ID_MOTOR')->unsigned();
-            $table->foreign('ID_MOTOR')->references('ID_MOTOR')->on('motor')->onUpdate('cascade');
             $table->integer('ID_PELANGGAN')->unsigned();
-            $table->foreign('ID_PELANGGAN')->references('ID_PELANGGAN')->on('pelanggan')->onUpdate('cascade');
             $table->string('NO_PLAT',20);
-           
             $table->timestamps();
+            $table->foreign('ID_MOTOR')->references('ID_MOTOR')->on('motor')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('ID_PELANGGAN')->references('ID_PELANGGAN')->on('pelanggan')->onUpdate('cascade')->onDelete('cascade');
+            
         });
     }
 

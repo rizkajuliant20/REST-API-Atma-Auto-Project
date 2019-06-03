@@ -8,6 +8,7 @@ class pegawai_onduty extends Model
 {
     protected $table="pegawai_onduty";
     protected $primaryKey="ID_PEGAWAI_ONDUTY";
+    public $incrementing=false;
     public $timestamps=true;
     protected $fillable=[
         'ID_TRANSAKSI','ID_PEGAWAI'

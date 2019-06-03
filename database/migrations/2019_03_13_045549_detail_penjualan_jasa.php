@@ -14,7 +14,7 @@ class DetailPenjualanJasa extends Migration
     public function up()
     {
         Schema::create('detail_penjualan_jasa', function (Blueprint $table) {
-            $table->string('ID_DETAIL_PENJUALAN_JASA',20)->primary();
+            $table->increments('ID_DETAIL_PENJUALAN_JASA',20);
             $table->string('ID_TRANSAKSI')->nullable();
             $table->foreign('ID_TRANSAKSI')->references('ID_TRANSAKSI')->on('transaksi_penjualan')->onUpdate('cascade');
             $table->integer('ID_JASA')->unsigned();

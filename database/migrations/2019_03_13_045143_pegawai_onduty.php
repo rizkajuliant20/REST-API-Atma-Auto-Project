@@ -16,12 +16,10 @@ class PegawaiOnduty extends Migration
         Schema::create('pegawai_onduty', function (Blueprint $table) {
             $table->increments('ID_PEGAWAI_ONDUTY');
             $table->string('ID_TRANSAKSI');
-            $table->foreign('ID_TRANSAKSI')->references('ID_TRANSAKSI')->on('transaksi_penjualan')->onUpdate('cascade');
             $table->integer('ID_PEGAWAI')->unsigned();
-            $table->foreign('ID_PEGAWAI')->references('ID_PEGAWAI')->on('pegawai')->onUpdate('cascade');
-           
-        
             $table->timestamps();
+            $table->foreign('ID_TRANSAKSI')->references('ID_TRANSAKSI')->on('transaksi_penjualan')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('ID_PEGAWAI')->references('ID_PEGAWAI')->on('pegawai')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

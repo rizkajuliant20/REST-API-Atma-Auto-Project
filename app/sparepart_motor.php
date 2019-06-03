@@ -8,6 +8,7 @@ class sparepart_motor extends Model
 {
     protected $table="sparepart_motor";
     protected $primaryKey="ID_SPAREPART_MOTOR";
+    public $incrementing =false;
     public $timestamps=true;
     protected $fillable=[
         'ID_SPAREPARTS','ID_MOTOR'

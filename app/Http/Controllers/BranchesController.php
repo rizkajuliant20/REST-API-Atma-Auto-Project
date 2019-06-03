@@ -109,7 +109,7 @@ class BranchesController extends RestController
             $branches->update([
                 'NAMA_CABANG'=>$request->NAMA_CABANG,      
                 'ALAMAT_CABANG'=>$request->ALAMAT_CABANG,        
-                'TELEPON_CABANG'=>$request->TELEPON_CABANG,
+                'TELEPON_CABANG'=>$request->TELEPON_CABANG
             ]);
             return response()->json('Success', 200);
         }catch(ModelNotFoundException $e) {

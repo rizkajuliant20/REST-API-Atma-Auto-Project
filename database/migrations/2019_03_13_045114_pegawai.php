@@ -15,16 +15,18 @@ class Pegawai extends Migration
     {
         Schema::create('pegawai', function (Blueprint $table) {
             $table->increments('ID_PEGAWAI');
-            $table->integer('ID_CABANG')->unsigned();
-            $table->foreign('ID_CABANG')->references('ID_CABANG')->on('branches')->onUpdate('cascade');
             $table->string('NAMA_PEGAWAI',50);
             $table->string('ALAMAT_PEGAWAI',50);
             $table->string('TELEPON_PEGAWAI',20);
             $table->string('GAJI_PEGAWAI',20);
-            $table->string('USERNAME',20);
-            $table->string('PASSWORD',9);
+            $table->integer('id')->unsigned()->nullable();
+            $table->integer('ID_CABANG')->unsigned();
             $table->string('ROLE',20);
+            
             $table->timestamps();
+            
+            $table->foreign('id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('ID_CABANG')->references('ID_CABANG')->on('branches')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -8,6 +8,7 @@ class pelanggan extends Model
 {
     protected $table="pelanggan";
     protected $primaryKey="ID_PELANGGAN";
+    public $incrementing =false;
     public $timestamps=true;
     protected $fillable=[
         'NAMA_PELANGGAN','TELEPON_PELANGGAN','ALAMAT_PELANGGAN'

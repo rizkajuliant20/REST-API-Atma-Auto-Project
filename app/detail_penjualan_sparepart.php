@@ -10,7 +10,7 @@ class detail_penjualan_sparepart extends Model
     protected $primaryKey="ID_PENJUALAN_SPAREPART";
     public $timestamps=true;
     protected $fillable=[
-        'ID_TRANSAKSI','ID_SPAREPARTS','ID_MONTIR_ONDUTY','JUMLAH_SPAREPART','SUBTOTAL_SPAREPART','HARGA_TAMPUNG_JUAL'
+        'ID_TRANSAKSI','ID_SPAREPARTS','JUMLAH_SPAREPART','SUBTOTAL_SPAREPART','HARGA_TAMPUNG_JUAL'
     ];
 
     public function transaksi_penjualan()
@@ -20,9 +20,5 @@ class detail_penjualan_sparepart extends Model
     public function sparepart()
     {
         return $this->belongsTo(sparepart::class,'ID_SPAREPARTS');
-    }
-    public function montir_onduty()
-    {
-        return $this->belongsTo(montir_onduty::class,'ID_MONTIR_ONDUTY');
     }
 }

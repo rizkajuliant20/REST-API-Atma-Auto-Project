@@ -16,12 +16,10 @@ class SparepartMotor extends Migration
         Schema::create('sparepart_motor', function (Blueprint $table) {
             $table->increments('ID_SPAREPART_MOTOR');
             $table->string('ID_SPAREPARTS')->nullable();
-            $table->foreign('ID_SPAREPARTS')->references('ID_SPAREPARTS')->on('sparepart')->onUpdate('cascade');
             $table->integer('ID_MOTOR')->unsigned();
-            $table->foreign('ID_MOTOR')->references('ID_MOTOR')->on('motor')->onUpdate('cascade');
-        
-           
             $table->timestamps();
+            $table->foreign('ID_SPAREPARTS')->references('ID_SPAREPARTS')->on('sparepart')->onUpdate('cascade');
+            $table->foreign('ID_MOTOR')->references('ID_MOTOR')->on('motor')->onUpdate('cascade');
         });
     }
 

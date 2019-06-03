@@ -16,16 +16,16 @@ class Sparepart extends Migration
         Schema::create('sparepart', function (Blueprint $table) {
             $table->string('ID_SPAREPARTS',20)->primary();
             $table->string('KODE_PENEMPATAN');
-            $table->foreign('KODE_PENEMPATAN')->references('KODE_PENEMPATAN')->on('posisi')->onUpdate('cascade');
             $table->string('NAMA_SPAREPART',20);
             $table->double('HARGA_BELI');
             $table->double('HARGA_JUAL');
             $table->integer('STOK_MINIMAL');
             $table->integer('STOK_BARANG');
-            $table->string('GAMBAR',255);
+            $table->string('GAMBAR',255)->nullable();
             $table->string('TIPE',20);
         
             $table->timestamps();
+            $table->foreign('KODE_PENEMPATAN')->references('KODE_PENEMPATAN')->on('posisi')->onUpdate('cascade');
         });
     }
 

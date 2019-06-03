@@ -8,6 +8,7 @@ class supplier extends Model
 {
     protected $table="supplier";
     protected $primaryKey="ID_SUPPLIER";
+    public $incrementing =false;
     public $timestamps=true;
     protected $fillable=[
         'NAMA_SUPPLIER','ALAMAT_SUPPLIER','TELEPON_SUPPLIER','NAMA_SALES','TELEPON_SALES'

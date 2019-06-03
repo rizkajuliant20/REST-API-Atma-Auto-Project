@@ -104,7 +104,7 @@ class SparepartMotorController extends RestController
             $sparepart_motor=sparepart_motor::find($id);
 
             $sparepart_motor->update([
-                'ID_SPAREPARTS'=>$request->ID_SPAREPARTS,          
+                'ID_SPAREPARTS'=>$request->ID_SPAREPARTS,
                 'ID_MOTOR'=>$request->ID_MOTOR
             ]);
             return response()->json('Success', 200);
@@ -127,6 +127,33 @@ class SparepartMotorController extends RestController
             $sparepart_motor=sparepart_motor::find($id);
             $sparepart_motor->delete();
             return response()->json('Success',200);
+        } catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('Bike and Sparepart is not found!');
+        } catch (\Exception $e) {
+            throw $e;
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    
+    public function hapus($idCust,$idMot)
+    {
+        try {
+            $sparepart_motor=sparepart_motor::where('ID_SPAREPARTS', $idCust)->where('ID_MOTOR',$idMot)->delete();
+            return response()->json('Success',200);
+        } catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('Bike and Sparepart is not found!');
+        } catch (\Exception $e) {
+            throw $e;
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    
+    public function showMatch($idSpa)
+    {
+        try {
+            $sparepart_motor=sparepart_motor::where('ID_SPAREPARTS',$idSpa)->first();
+            $response = $this->generateItem($sparepart_motor);
+            return $this->sendResponse($response);
         } catch (ModelNotFoundException $e) {
             return $this->sendNotFoundResponse('Bike and Sparepart is not found!');
         } catch (\Exception $e) {

@@ -8,6 +8,7 @@ class montir_onduty extends Model
 {
     protected $table="montir_onduty";
     protected $primaryKey="ID_MONTIR_ONDUTY";
+    public $incrementing=false;
     public $timestamps=true;
     protected $fillable=[
         'ID_PEGAWAI','ID_KENDARAAN_PEL'

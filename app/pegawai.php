@@ -8,9 +8,16 @@ class pegawai extends Model
 {
     protected $table="pegawai";
     protected $primaryKey="ID_PEGAWAI";
+    public $incrementing =false;
     public $timestamps=true;
     protected $fillable=[
-        'ID_CABANG','NAMA_PEGAWAI','ALAMAT_PEGAWAI','TELEPON_PEGAWAI','GAJI_PEGAWAI','USERNAME','PASSWORD','ROLE'
+        'NAMA_PEGAWAI',
+        'ALAMAT_PEGAWAI',
+        'TELEPON_PEGAWAI',
+        'GAJI_PEGAWAI',
+        'id',
+        'ID_CABANG',
+        'ROLE'
     ];
 
 
@@ -27,5 +34,9 @@ class pegawai extends Model
     {
         return $this->hasMany(pegawai_onduty::class,'ID_PEGAWAI');
     }
+
+    public function users(){
+        return $this->belongsTo(user::class,'id');
+    } 
 
 }

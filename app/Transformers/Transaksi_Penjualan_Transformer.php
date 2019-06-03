@@ -21,9 +21,7 @@ class Transaksi_Penjualan_Transformer extends TransformerAbstract
             'DISKON' => $transaksi_penjualan->DISKON,
             'GRANDTOTAL' => $transaksi_penjualan->GRANDTOTAL,
             'STATUS_TRANSAKSI' => $transaksi_penjualan->STATUS_TRANSAKSI,
-          
-           
-            
+            'JENIS_TRANSAKSI' => $transaksi_penjualan->JENIS_TRANSAKSI,
         ];
     }
 }

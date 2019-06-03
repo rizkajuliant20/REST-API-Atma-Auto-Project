@@ -8,6 +8,7 @@ class kendaraan_pelanggan extends Model
 {
     protected $table="kendaraan_pelanggan";
     protected $primaryKey="ID_KENDARAAN_PEL";
+    public $incrementing=false;
     public $timestamps=true;
     protected $fillable=[
         'ID_MOTOR','ID_PELANGGAN','NO_PLAT'
